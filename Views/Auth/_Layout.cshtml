@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ServiceBuddy</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ServiceBuddy.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&family=Pacifico&display=swap" rel="stylesheet">
+   
+
+</head>
+<body style="background: #1a2031;">
+    <div class="background-container " id="backCon" style="position: fixed; width: 100%; height: 100%; z-index: -1;">
+        <img src="/images/20.png" alt="abstract by divy shah" id="ab2" width="300" height="300" style="position: absolute; top: 100px; left: 100px; " />
+        <img src="/images/45.png" alt="abstract by divy shah" id="ab1" width="300" height="300" style="position: absolute; bottom: 100px; right: 100px; " />
+
+
+    </div>
+    <div class="container">
+        <header class="w-100 p-4">
+            <style>
+                .crop-container {
+                    width: 45px; /* Desired width */
+                    height: 45px; /* Desired height */
+                    margin-right: 5px;
+                }
+
+                    .crop-container svg {
+                        width: 45px;
+                        height: 45px;
+                        fill: darkgray;
+                    }
+
+                #Logo:hover svg {
+                    fill: white;
+                }
+                #Logo h2{
+                    color: darkgray;
+                }
+
+                #Logo:hover h2 {
+                        color: white;
+                }
+
+               
+            </style>
+
+            <div class="d-flex align-items-center text-center">
+                <div class="d-flex " id="Logo">
+                    <div class="crop-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="logo" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" zoomAndPan="magnify" viewBox="0 0 375 374.999991" height="500" preserveAspectRatio="xMidYMid meet" version="1.0">
+                            <path d="M 36.101562 117.046875 C 16.03125 68.375 42.898438 16.558594 93.675781 5.378906 C 98.683594 4.277344 103.773438 3.617188 108.972656 3.621094 C 175.207031 3.683594 241.445312 3.632812 307.679688 3.683594 C 323.03125 3.695312 335.257812 9.945312 342.519531 23.65625 C 349.648438 37.117188 349.03125 50.753906 340.847656 63.855469 C 330.433594 80.523438 320.082031 97.230469 309.675781 113.898438 C 308.667969 115.511719 307.550781 117.074219 306.324219 118.523438 C 303.78125 121.53125 300.335938 121.824219 296.882812 120.917969 C 293.476562 120.023438 291.535156 117.523438 290.832031 114.003906 C 289.804688 108.84375 290.875 103.726562 290.933594 98.589844 C 291.125 81.992188 289.777344 65.410156 290.675781 48.796875 C 290.945312 43.847656 289.332031 39.136719 284.140625 37.085938 C 278.972656 35.046875 274.597656 36.582031 270.707031 40.574219 C 261.648438 49.871094 252.324219 58.90625 243.257812 68.195312 C 240.675781 70.839844 237.972656 72.042969 234.214844 72.027344 C 204.246094 71.902344 174.277344 71.898438 144.308594 72.023438 C 140.539062 72.039062 137.839844 70.804688 135.261719 68.183594 C 126.167969 58.925781 116.839844 49.898438 107.753906 40.628906 C 103.882812 36.679688 99.546875 34.925781 94.359375 37.105469 C 89.296875 39.230469 87.914062 43.707031 87.921875 48.84375 C 87.945312 72.132812 87.816406 95.417969 87.972656 118.707031 C 88.078125 134.835938 100.21875 146.882812 116.347656 146.914062 C 162.15625 147.007812 207.96875 146.921875 253.78125 147.015625 C 270.777344 147.050781 285.609375 152.480469 297.082031 165.535156 C 305.445312 175.046875 310.082031 186.089844 310.140625 198.839844 C 310.222656 216.59375 309.976562 234.347656 310.246094 252.097656 C 310.460938 266.320312 305.261719 278.238281 295.492188 288.128906 C 272.285156 311.621094 249.023438 335.066406 225.46875 358.203125 C 205.164062 378.148438 172.917969 377.839844 152.738281 357.75 C 119.324219 324.488281 86.042969 291.09375 52.738281 257.722656 C 44.226562 249.199219 44.140625 240.910156 52.402344 232.257812 C 62.023438 222.179688 71.648438 212.105469 81.382812 202.136719 C 89.722656 193.59375 98.398438 193.582031 106.808594 201.980469 C 124.503906 219.644531 142.152344 237.359375 159.851562 255.027344 C 177.6875 272.828125 200.144531 273.1875 218.1875 255.554688 C 236.066406 238.078125 253.710938 220.355469 271.222656 202.511719 C 283.035156 190.476562 279.570312 172.691406 264.652344 166.847656 C 260.773438 165.328125 256.757812 165.671875 252.785156 165.667969 C 206.207031 165.628906 159.632812 165.886719 113.058594 165.566406 C 77.777344 165.324219 51.792969 149.570312 36.101562 117.046875 Z M 36.101562 117.046875 " fill-opacity="1" fill-rule="nonzero" />
+                            <path d="M 219.667969 196.8125 C 212.242188 204.242188 205.160156 211.4375 197.957031 218.507812 C 191.304688 225.035156 185.066406 225.066406 178.511719 218.605469 C 170.234375 210.449219 162.089844 202.167969 153.851562 193.972656 C 150.410156 190.550781 148.074219 186.898438 150.183594 181.785156 C 152.375 176.46875 156.761719 175.464844 161.828125 175.476562 C 179.160156 175.507812 196.496094 175.523438 213.828125 175.460938 C 218.835938 175.445312 223.644531 176.027344 225.824219 181.238281 C 228 186.449219 226.050781 190.878906 221.980469 194.503906 C 221.269531 195.136719 220.628906 195.84375 219.667969 196.8125 Z M 219.667969 196.8125 " fill-opacity="1" fill-rule="nonzero" />
+                            <path d="M 243.449219 104.332031 C 250.453125 110.820312 252.175781 118.105469 248.964844 126.273438 C 246.667969 132.105469 241.917969 135.84375 236.5625 135.597656 C 230.550781 135.320312 226.574219 131.816406 224.707031 126.378906 C 222.390625 119.625 222.347656 112.839844 227.183594 106.9375 C 231.207031 102.027344 236.488281 101.191406 243.449219 104.332031 Z M 243.449219 104.332031 " fill-opacity="1" fill-rule="nonzero" />
+                            <path d="M 127.675781 125.996094 C 125.351562 119.652344 125.984375 113.929688 129.199219 108.628906 C 134.179688 100.417969 144.355469 100.058594 150.074219 107.742188 C 154.664062 113.914062 154.457031 124.707031 149.628906 130.679688 C 143.140625 138.703125 133.355469 136.789062 127.675781 125.996094 Z M 127.675781 125.996094 " fill-opacity="1" fill-rule="nonzero" />
+                        </svg>
+                    </div>
+                    <h2 style="font-family: 'Sniglet', serif;">ServiceBuddy</h2>
+                </div>
+            </div>
+            
+        </header>
+        <div id="app"></div>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* <script src="~/js/cauth.js" type="module"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script type="module">
+
+        // Select the logo element
+        const ab1 = document.getElementById("ab1");
+        const ab2 = document.getElementById("ab2");
+
+        // Apply the pulse animation
+           gsap.to(ab1, {
+            scale: 1.1,             // Scale up
+            rotation: 30,           // Rotate to 10 degrees
+            duration: 2.75,         // Half the animation time for up animation
+            yoyo: true,             // Reverse the animation (yoyo effect)
+            repeat: -1,             // Infinite repeat
+            ease: "power1.inOut"    // Easing for smooth transition
+        });
+
+        // Optional: Apply additional animations to ab2
+        gsap.to(ab2, {
+            rotation: 20,          // Rotate on the X-axis
+            duration: 4.5,          // Animation duration
+            repeat: -1,             // Infinite repeat
+            yoyo: true,             // Yoyo effect for reverse
+            ease: "power1.inOut"    // Smooth easing
+        });
+
+           
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

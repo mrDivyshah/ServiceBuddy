@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewData["Title"] = "map";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceBuddy - Route Finder</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        .info-panel {
+            width: 30%;
+            padding: 20px;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #map {
+            width: 70%;
+            height: 100vh;
+        }
+
+        .emoji-marker {
+            font-size: 24px;
+        }
+
+        .toggle-btn {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+            .toggle-btn:hover {
+                background: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="info-panel">
+            <h2>Service Details</h2>
+            <p><strong>Service Provider:</strong> ABC Repair Services 👨‍🔧</p>
+            <p><strong>Location:</strong> Delhi, India</p>
+            <p><strong>Service Receiver:</strong> John Doe 👤</p>
+            <p><strong>Location:</strong> <span id="receiver-location">Detecting...</span></p>
+
+            <h3>Route Info</h3>
+            <p><strong>Distance:</strong> <span id="distance">Calculating...</span></p>
+            <p><strong>Estimated Travel Time:</strong> <span id="travel-time">Calculating...</span></p>
+
+            <button class="toggle-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <script>
+        var map = L.map('map').setView([22.5, 78.5], 5); // Centered in India
+        var darkMode = false;
+
+        var lightTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 });
+        var darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 18 });
+        lightTiles.addTo(map);
+
+        var serviceProviderLocation = [15.6139, 77.2090]; // Delhi
+        var serviceReceiverLocation = null; // User's location will be detected
+
+        var routeControl;
+        var userMarker;
+
+        function addEmojiMarker(lat, lng, emoji) {
+            var icon = L.divIcon({ className: 'emoji-marker', html: emoji, iconSize: [30, 30], iconAnchor: [15, 15] });
+            return L.marker([lat, lng], { icon: icon }).addTo(map);
+        }
+
+        var providerMarker = addEmojiMarker(serviceProviderLocation[0], serviceProviderLocation[1], "👨‍🔧");
+
+        function updateRoute() {
+            if (routeControl) map.removeControl(routeControl);
+
+            routeControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(serviceProviderLocation),
+                    L.latLng(serviceReceiverLocation || [19.0760, 72.8777]) // Default to Mumbai if no user location
+                ],
+                routeWhileDragging: true,
+                lineOptions: { styles: [{ color: 'blue', opacity: 0.7, weight: 6 }] },
+                createMarker: function() { return null; }, // Remove default markers
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false, // Disable alternative routes
+                fitSelectedRoutes: true,
+                show: false // ✅ Hides turn-by-turn directions
+            }).addTo(map);
+
+            // ✅ Hide routing panels manually
+            document.querySelectorAll(".leaflet-routing-container").forEach(el => el.style.display = "none");
+
+            routeControl.on('routesfound', function(e) {
+                var route = e.routes[0];
+                document.getElementById('distance').innerText = (route.summary.totalDistance / 1000).toFixed(2) + " km";
+                document.getElementById('travel-time').innerText = Math.round(route.summary.totalTime / 60) + " min";
+            });
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    serviceReceiverLocation = [position.coords.latitude, position.coords.longitude];
+
+                    document.getElementById('receiver-location').innerText = `Lat: ${serviceReceiverLocation[0]}, Lon: ${serviceReceiverLocation[1]}`;
+
+                    if (userMarker) map.removeLayer(userMarker);
+                    userMarker = addEmojiMarker(serviceReceiverLocation[0], serviceReceiverLocation[1], "👤");
+
+                    map.setView(serviceReceiverLocation, 10);
+                    updateRoute();
+                }, function (error) {
+                    alert("Unable to fetch your location. Using default location.");
+                    document.getElementById('receiver-location').innerText = "Mumbai, India";
+                    serviceReceiverLocation = [19.0760, 72.8777]; // Default to Mumbai
+                    updateRoute();
+                });
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        function toggleTheme() {
+            darkMode = !darkMode;
+            if (darkMode) {
+                map.removeLayer(lightTiles);
+                darkTiles.addTo(map);
+            } else {
+                map.removeLayer(darkTiles);
+                lightTiles.addTo(map);
+            }
+        }
+
+        getUserLocation(); // Detect user location on load
+    </script>
+
+</body>
+</html>
+

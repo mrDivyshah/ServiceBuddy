@@ -1,0 +1,203 @@
+﻿
+    @{
+        ViewData["Title"] = "Login";
+    }
+    <style>
+        :root {
+            --bs-gradient: linear-gradient(210deg, #cccccc,#182849);
+        }
+    </style>
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="row shadow-lg rounded overflow-hidden bg-white w-75">
+                <div class="col-md-7 d-none d-md-block p-0">
+                    <img src="/images/loginabstract.jpeg" alt="Login" class="img-fluid h-100 w-100" style="object-fit: cover;">
+                </div>
+                <div class="col-md-5 p-5 d-flex flex-column justify-content-center">
+                    <div class="text-center">
+                        <h3 class="mb-3">Login Now</h3>
+                        <p class="text-muted">Enter your mobile number to continue</p>
+                    </div>
+                    <form id="mobileNumberForm">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">+91</span>
+                            <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile Number">
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" onclick="showOtpSection()">Continue</button>
+                    </form>
+                    <div id="otpSection" class="mt-4 d-none">
+                        <p class="text-muted">Enter the OTP sent to your mobile number</p>
+                        <input type="text" class="form-control mb-2" id="code" placeholder="Enter OTP">
+                        <button type="submit" class="btn btn-success w-100">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+@* <div class="d-flex justify-content-start align-items-center mt-4"> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <span class="px-2"></span> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@*     <input type="text" class="digit-box" maxlength="1" /> *@
+@* </div> *@
+<script>
+    function showOtpSection() {
+        document.getElementById('mobileNumberForm').classList.add('d-none');
+        document.getElementById('otpSection').classList.remove('d-none');
+    }
+</script>
+    <style>
+        .digit-box {
+            width: 40px;
+            height: 40px;
+            margin: 0 1px;
+            text-align: center;
+            font-size: 18px;
+            border: none;
+            /* border-bottom: 2px solid #ccc; */
+            background: #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+            .digit-box:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+
+            .digit-box::placeholder {
+                color: #888; /* Change placeholder color */
+                opacity: 1; /* Ensures the color is fully applied */
+            }
+    </style>
+    <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import {getAuth, signInWithPhoneNumber, RecaptchaVerifier} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+       
+            
+        const firebaseConfig = {
+          apiKey: "AIzaSyDBYeMExridlGsFpr30DzMIViUTtyyrrGI",
+          authDomain: "college-final-year-408902.firebaseapp.com",
+          projectId: "college-final-year-408902",
+          storageBucket: "college-final-year-408902.firebasestorage.app",
+          messagingSenderId: "224165104368",
+          appId: "1:224165104368:web:503f85e3087bb0179f1035",
+          measurementId: "G-T5DMWMBEDY"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // inputfields 
+        const mobileNumber = document.getElementById('MobileNumber');
+        const sendCode = document.getElementById('sendCode');
+        const sendOTPCode = document.getElementById('sendOTPCode');
+        const codeInput = document.getElementById('code');
+        let ConfirmationResult;
+        sendCode.addEventListener('click', async(e) => {
+            e.preventDefault();
+            try{
+            console.log(auth);
+                const mo = "+919408541243";
+                const appVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+                    'size': 'normal',
+                    'callback': (response) => {
+
+                    },
+                    'expired-callback': () => {
+                    }
+                });
+                      console.log(appVerifier);
+                await signInWithPhoneNumber(auth,mo,appVerifier)
+                    .then((confirmationResult) => {
+                      
+                      ConfirmationResult = confirmationResult;
+                     
+                      console.log("OTP sent successfully. Confirmation result:", ConfirmationResult);
+                    }).catch((error) => {
+                      
+                    });
+            }catch(e){
+                console.log(e);
+            }
+        });
+
+        sendOTPCode.addEventListener('click', async(e) => {
+            e.preventDefault();
+            try{
+                const code = codeInput.value;
+                console.log(code);
+                const result = await ConfirmationResult.confirm(code);
+                console.log("User signed in successfully:", result.user);
+            }catch(e){
+                console.log(e);
+            }
+        });
+ 
+            
+
+
+
+    
+
+    // function verifyCode() {
+    //     const code = prompt("Enter the OTP code:"); Replace with user input
+    //     window.confirmationResult
+    //         .confirm(code)
+    //         .then((result) => {
+    //             User signed in successfully
+    //             const user = result.user;
+    //             console.log("User signed in successfully:", user);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error verifying code:", error);
+    //         });
+    // }
+
+    
+
+
+</script>
+    <!-- Rest of your HTML file -->
+
+    @* <script> *@
+    @*     window.addEventListener('load', async function () { *@
+    @*       await Clerk.load() *@
+
+    @*       console.log('ClerkJS is loaded') *@
+    @*     }) *@
+    @* </script> *@
+    @* <script> *@
+    @*     const digitBoxes = document.querySelectorAll('.digit-box'); *@
+
+    @*     digitBoxes.forEach((box, index) => { *@
+    @*         // Restrict input to numbers only *@
+    @*         box.addEventListener('input', (e) => { *@
+    @*             const value = e.target.value; *@
+    @*             if (!/^\d$/.test(value)) { *@
+    @*                 e.target.value = ''; // Clear invalid input *@
+    @*                 box.style.background = "#ddd"; *@
+    @*             } else { *@
+    @*                 box.style.background = "#e8f0fe"; *@
+    @*                 box.style.color = "#000000"; *@
+    @*                 // Move focus to the next box if a valid digit is entered *@
+    @*                 if (index < digitBoxes.length - 1) { *@
+    @*                     digitBoxes[index + 1].focus(); *@
+    @*                 } *@
+    @*             } *@
+    @*         }); *@
+
+    @*         // Handle backspace to move focus to the previous box *@
+    @*         box.addEventListener('keydown', (e) => { *@
+    @*             if (e.key === 'Backspace' && !box.value && index > 0) { *@
+    @*                 digitBoxes[index - 1].focus(); *@
+    @*             } *@
+    @*         }); *@
+    @*     }); *@
+    @* </script> *@

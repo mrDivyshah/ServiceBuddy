@@ -10,7 +10,6 @@ namespace ServiceBuddy.Data
         {
         }
         public DbSet<UserData> User { get; set; }
+        public DbSet<serviceTable> serviceTables { get; set; }
     }
-
-
 }
